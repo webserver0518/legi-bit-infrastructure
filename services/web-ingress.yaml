@@ -5,10 +5,8 @@ metadata:
   namespace: legibit
   labels:
     app: legibit
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   rules:
     - host: legi-bit.com
       http:
