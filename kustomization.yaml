@@ -1,5 +1,6 @@
 resources:
   - namespace.yaml
+  - aws-ccm-app.yaml
   - configs/configmap-backend.yaml
   - configs/configmap-service-mongodb.yaml
   - configs/configmap-service-s3.yaml
