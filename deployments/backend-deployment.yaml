@@ -22,7 +22,7 @@ spec:
         - name: backend
           image: webserver0518/legi-bit-flask:v0.2
           ports:
-            - containerPort: 9091
+            - containerPort: 9000
           envFrom:
             - configMapRef:
                 name: backend-config
@@ -38,13 +38,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 9091
+              port: 9000
             initialDelaySeconds: 20
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /healthz
-              port: 9091
+              port: 9000
             initialDelaySeconds: 10
             periodSeconds: 15
       restartPolicy: Always
