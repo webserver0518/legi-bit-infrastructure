@@ -26,8 +26,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: backend-config
-            - secretRef:
-                name: backend-secret
+            #- secretRef:
+            #    name: backend-secret
           resources:
             requests:
               cpu: "200m"

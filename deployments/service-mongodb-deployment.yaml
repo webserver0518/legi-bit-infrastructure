@@ -26,8 +26,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: service-mongodb-config
-            - secretRef:
-                name: service-mongodb-secret
+            #- secretRef:
+            #    name: service-mongodb-secret
           resources:
             requests:
               cpu: "300m"

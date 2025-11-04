@@ -26,8 +26,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: service-s3-config
-            - secretRef:
-                name: service-s3-secret
+            #- secretRef:
+            #    name: service-s3-secret
           volumeMounts:
             - name: aws-credentials
               mountPath: /root/.aws
