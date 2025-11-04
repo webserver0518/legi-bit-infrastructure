@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: webserver0518/legi-bit-flask:v0.2
+          image: webserver0518/legi-bit-flask:v0.3
           ports:
             - containerPort: 9000
           envFrom:

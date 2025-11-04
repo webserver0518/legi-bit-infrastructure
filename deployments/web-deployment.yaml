@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: webserver0518/legi-bit-nginx:v0.2
+          image: webserver0518/legi-bit-nginx:v0.3
           ports:
             - containerPort: 80
           envFrom:

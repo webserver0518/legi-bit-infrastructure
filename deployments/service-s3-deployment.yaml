@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: service-s3
-          image: webserver0518/legi-bit-s3:v0.2
+          image: webserver0518/legi-bit-s3:v0.3
           ports:
             - containerPort: 8000
           envFrom:

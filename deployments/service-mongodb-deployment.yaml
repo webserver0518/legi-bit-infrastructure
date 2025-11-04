@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: service-mongodb
-          image: webserver0518/legi-bit-mongodb:v0.2
+          image: webserver0518/legi-bit-mongodb:v0.3
           ports:
             - containerPort: 8001
           envFrom:
