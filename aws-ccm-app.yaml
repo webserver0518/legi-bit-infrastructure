@@ -6,12 +6,20 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/kubernetes/cloud-provider-aws.git
-    targetRevision: v1.30.0
-    path: examples/existing-cluster
+    repoURL: https://kubernetes.github.io/cloud-provider-aws
+    chart: aws-cloud-controller-manager
+    targetRevision: 1.28.0
+    helm:
+      parameters:
+        - name: clusterName
+          value: "default"
+        - name: region
+          value: "eu-north-1"
+        - name: enablePodSecurityPolicy
+          value: "false"
   destination:
-    namespace: kube-system
     server: https://kubernetes.default.svc
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true
