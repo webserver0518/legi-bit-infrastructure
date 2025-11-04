@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-mongodb-deployment
+  namespace: legibit
+  labels:
+    app: legibit
+    component: service-mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: legibit
+      component: service-mongodb
+  template:
+    metadata:
+      labels:
+        app: legibit
+        component: service-mongodb
+    spec:
+      containers:
+        - name: service-mongodb
+          image: webserver0518/legi-bit-mongodb:v0.2
+          ports:
+            - containerPort: 8001
+          envFrom:
+            - configMapRef:
+                name: service-mongodb-config
+            - secretRef:
+                name: service-mongodb-secret
+          resources:
+            requests:
+              cpu: "300m"
+              memory: "512Mi"
+            limits:
+              cpu: "600m"
+              memory: "768Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8001
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8001
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      restartPolicy: Always

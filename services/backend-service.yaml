@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: legibit
+  labels:
+    app: legibit
+    component: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: legibit
+    component: backend
+  ports:
+    - name: http
+      port: 9091
+      targetPort: 9091

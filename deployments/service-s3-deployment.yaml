@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-s3-deployment
+  namespace: legibit
+  labels:
+    app: legibit
+    component: service-s3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: legibit
+      component: service-s3
+  template:
+    metadata:
+      labels:
+        app: legibit
+        component: service-s3
+    spec:
+      containers:
+        - name: service-s3
+          image: webserver0518/legi-bit-s3:v0.2
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: service-s3-config
+            - secretRef:
+                name: service-s3-secret
+          volumeMounts:
+            - name: aws-credentials
+              mountPath: /root/.aws
+              readOnly: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      volumes:
+        - name: aws-credentials
+          secret:
+            secretName: service-s3-secret
+      restartPolicy: Always

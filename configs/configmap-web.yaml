@@ -1,0 +1,12 @@
+# configmap-web.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: legibit
+  labels:
+    app: legibit
+    component: web
+data:
+  FLASK_SERVER_ADDR: "backend:9091"
+  DOMAIN_NAME: "legi-bit.com"
