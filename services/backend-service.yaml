@@ -13,5 +13,5 @@ spec:
     component: backend
   ports:
     - name: http
-      port: 9091
-      targetPort: 9091
+      port: 9000
+      targetPort: 9000

@@ -26,4 +26,4 @@ spec:
               service:
                 name: backend
                 port:
-                  number: 9091
+                  number: 9000
