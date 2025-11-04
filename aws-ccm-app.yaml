@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aws-cloud-controller-manager
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kubernetes/cloud-provider-aws.git
+    targetRevision: v1.30.0
+    path: examples/existing-cluster
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
