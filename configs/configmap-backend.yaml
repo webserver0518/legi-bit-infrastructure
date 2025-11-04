@@ -5,9 +5,21 @@ metadata:
   namespace: legibit
   labels:
     app: legibit
-    component: backend
+    component:  backend
 data:
-  FLASK_SERVER_PORT: "9091"
+  # Flask
+  FLASK_SERVER_PORT: "9000"
   FLASK_ENV: "development"
-  LIMITER_DEFAULT: "50 per hour"
-  LIMITER_LOGIN: "5 per minute"
+  # flask signature
+  SECRET_KEY: "dfb594091faa05005d1212f4cdce9dc64a81c9ff50253210520375a9fd25a934"
+  
+  # Redis
+  SESSION_TYPE: "redis"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  SESSION_REDIS_URL: "redis://redis:6379/0"
+  
+  # Services URL
+  S3_SERVICE_URL: "http://service-s3:8000"
+  MONGODB_SERVICE_URL: "http://service-mongodb:8001"

@@ -8,5 +8,5 @@ metadata:
     app: legibit
     component: web
 data:
-  FLASK_SERVER_ADDR: "backend:9091"
+  FLASK_SERVER_ADDR: "backend:9000"
   DOMAIN_NAME: "legi-bit.com"
