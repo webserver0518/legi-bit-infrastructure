@@ -26,8 +26,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.serviceMongodb.configMapName }}
-            #- secretRef:
-            #    name: service-mongodb-secret
+            {{- if .Values.serviceMongodb.secretProvider.enabled }}
+            - secretRef:
+                name: {{ .Values.serviceMongodb.secretProvider.secretName }}
+            {{- end }}
           resources:
 {{ toYaml .Values.serviceMongodb.resources | indent 12 }}
           livenessProbe:
@@ -43,3 +45,12 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 15
       restartPolicy: Always
+      {{- if .Values.serviceMongodb.secretProvider.enabled }}
+      volumes:
+        - name: aws-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: mongodb-secrets-provider
+      {{- end }}

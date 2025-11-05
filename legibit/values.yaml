@@ -226,6 +226,11 @@ serviceMongodb:
     type: ClusterIP
     port: 8001
 
+  secretProvider:
+    enabled: true
+    secretName: "mongodb-secret"
+    awsSecretName: "legibit/mongodb"
+
 serviceS3:
   image:
     repository: webserver0518/legi-bit-s3
@@ -251,6 +256,11 @@ serviceS3:
   service:
     type: ClusterIP
     port: 8000
+
+  secretProvider:
+    enabled: true
+    secretName: "service-s3-secret"
+    awsSecretName: "legibit/service-s3"
 
 redis:
   image: "redis:7-alpine"

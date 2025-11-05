@@ -26,12 +26,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.serviceS3.configMapName }}
-            #- secretRef:
-            #    name: service-s3-secret
-          volumeMounts:
-            - name: aws-credentials
-              mountPath: /root/.aws
-              readOnly: true
+            {{- if .Values.serviceS3.secretProvider.enabled }}
+            - secretRef:
+                name: {{ .Values.serviceS3.secretProvider.secretName }}
+            {{- end }}
           resources:
 {{ toYaml .Values.serviceS3.resources | indent 12 }}
           livenessProbe:
@@ -46,8 +44,13 @@ spec:
               port: {{ .Values.serviceS3.port }}
             initialDelaySeconds: 10
             periodSeconds: 15
-      volumes:
-        - name: aws-credentials
-          secret:
-            secretName: {{ .Values.serviceS3.secretName }}
       restartPolicy: Always
+      {{- if .Values.serviceS3.secretProvider.enabled }}
+      volumes:
+        - name: aws-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: s3-secrets-provider
+      {{- end }}
