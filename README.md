@@ -1,8 +1,7 @@
 
 # Legi-Bit – DevOps & GitOps Overview
 
-Legi-Bit is a multiservice SaaS platform designed for legal offices.  
-This document focuses on the DevOps and GitOps practices powering the platform’s delivery pipeline.
+Legi-Bit is a modular SaaS platform built with a microservices architecture for legal offices.  
 
 ---
 
@@ -10,10 +9,10 @@ This document focuses on the DevOps and GitOps practices powering the platform�
 
 Legi-Bit is deployed in a production-like environment running on:
 
-- AWS EC2 – Kubernetes (k3s)
+- AWS EC2 with Kubernetes (k3s) installed
 - Docker images hosted in Docker Hub
 - GitOps workflow managed by Argo CD
-- Infrastructure-as-Code using Helm
+- IaC using Helm
 
 **High-level flow:**
 
@@ -25,32 +24,31 @@ Developer → GitHub → Docker Hub → Argo CD → Kubernetes
 
 ## 🧩 Repository Structure
 
-| Repository | Purpose |
-|----------|---------|
-| Application repository | Flask backend + Web frontend, containerized and pushed to Docker Hub |
-| Infrastructure repository | Helm chart + Argo CD application manifests |
-| Secure secrets repository | Runtime credentials stored encrypted and deployed automatically |
+| Repository     | Purpose                                                    |
+|----------------|------------------------------------------------------------|
+| Application    | backend & frontend, containerized and pushed to Docker Hub |
+| Infrastructure | Helm chart + Argo CD application manifests                 |
+| Secure secrets | Runtime credentials stored encrypted & Argo CD manifest    |
 
 ---
 
 ## 🔁 CI/CD Workflow
 
-| Stage | Tooling | Trigger | Result |
-|------|---------|---------|--------|
-| CI | GitHub Actions | Push to main | Build Docker images and publish to Docker Hub |
-| CD | Argo CD + Image Updater | New image tag detected | Auto-sync new version to Kubernetes |
+| Stage | Tooling                 | Trigger                | Result                                        |
+|-------|-------------------------|------------------------|-----------------------------------------------|
+| CI    | GitHub Actions          | Push / PR to main      | Build Docker images and publish to Docker Hub |
+| CD    | Argo CD + Image Updater | New image tag detected | Auto-sync new version to Kubernetes           |
 
-✅ Fully automated deployments  
-✅ No manual `kubectl apply` to production
+✅ Fully automated deployments
 
 ---
 
 ## 🧠 GitOps Principles in Use
 
 - Git is the single source of truth  
-- Deployment is handled by automation, not humans  
-- Configuration and secrets are versioned and controlled  
-- Drift detection and reconciliation run continuously  
+- Deployment is handled by automation
+- Configuration and secrets are versioned and controlled
+- Drift detection and reconciliation run continuously
 
 ---
 
@@ -67,10 +65,10 @@ Developer → GitHub → Docker Hub → Argo CD → Kubernetes
 
 ## 🎯 DevOps Goals Achieved
 
-- Continuous Delivery into a real cluster environment
+- Continuous Delivery into a cluster environment
 - Clear repo separation and modular architecture
 - Secure lifecycle for sensitive credentials
-- Production-grade deployment workflow for a student project
+- Production-grade deployment workflow
 
 
 ---
