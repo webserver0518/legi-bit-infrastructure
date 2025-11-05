@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  legibit:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-11-05T12:03:59.0251828+02:00"
+    description: A Helm chart for Kubernetes
+    digest: af0d414ea263b339b62debe101ad1a7267ef13fb8d0c502a8e5cb9fdfb682bfd
+    name: legibit
+    type: application
+    urls:
+    - https://webserver0518.github.io/legi-bit-infrastructure/legibit-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-11-05T12:03:59.0251828+02:00"
