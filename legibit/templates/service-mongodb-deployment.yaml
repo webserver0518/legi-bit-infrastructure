@@ -17,7 +17,6 @@ spec:
         app: {{ include "legi-bit.name" . }}
         component: service-mongodb
     spec:
-      serviceAccountName: legibit-sa
       containers:
         - name: service-mongodb
           image: "{{ .Values.serviceMongodb.image.repository }}:{{ .Values.serviceMongodb.image.tag }}"
@@ -28,22 +27,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.serviceMongodb.configMapName }}
-            {{- if .Values.serviceMongodb.secretProvider.enabled }}
             - secretRef:
-                name: {{ .Values.serviceMongodb.secretProvider.secretName }}
-            {{- end }}
-
-          env:
-            - name: MONGO_URI
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: MONGO_URI
-
-          volumeMounts:
-            - name: aws-secrets
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
+                name: mongodb-secret
 
           resources:
 {{ toYaml .Values.serviceMongodb.resources | indent 12 }}
@@ -63,13 +48,3 @@ spec:
             periodSeconds: 15
 
       restartPolicy: Always
-
-      {{- if .Values.serviceMongodb.secretProvider.enabled }}
-      volumes:
-        - name: aws-secrets
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: mongodb-secrets-provider
-      {{- end }}
