@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: legibit
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://webserver0518.github.io/legi-bit-infrastructure
+    chart: legibit
+    targetRevision: "0.1.0"
+    helm:
+      releaseName: legibit
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: legibit
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
