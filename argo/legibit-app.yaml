@@ -12,19 +12,21 @@ metadata:
       s3=webserver0518/legi-bit-s3
 
     # Map image aliases to Helm values
-    argocd-image-updater.argoproj.io/image-tag-prefix: v
-
     argocd-image-updater.argoproj.io/web.helm.image-name: web.image.repository
     argocd-image-updater.argoproj.io/web.helm.image-tag: web.image.tag
+    argocd-image-updater.argoproj.io/web.tag-prefix: v
 
     argocd-image-updater.argoproj.io/backend.helm.image-name: backend.image.repository
     argocd-image-updater.argoproj.io/backend.helm.image-tag: backend.image.tag
+    argocd-image-updater.argoproj.io/backend.tag-prefix: v
 
     argocd-image-updater.argoproj.io/mongodb.helm.image-name: serviceMongodb.image.repository
     argocd-image-updater.argoproj.io/mongodb.helm.image-tag: serviceMongodb.image.tag
+    argocd-image-updater.argoproj.io/mongodb.tag-prefix: v
 
     argocd-image-updater.argoproj.io/s3.helm.image-name: serviceS3.image.repository
     argocd-image-updater.argoproj.io/s3.helm.image-tag: serviceS3.image.tag
+    argocd-image-updater.argoproj.io/s3.tag-prefix: v
 
     # Update strategy
     argocd-image-updater.argoproj.io/web.update-strategy: newest-build
