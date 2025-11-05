@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.redis.serviceName }}
+  labels:
+    app: {{ include "legi-bit.name" . }}
+    component: redis
+spec:
+  type: {{ .Values.redis.service.type }}
+  selector:
+    app: {{ include "legi-bit.name" . }}
+    component: redis
+  ports:
+    - port: {{ .Values.redis.service.port }}
+      targetPort: {{ .Values.redis.port }}

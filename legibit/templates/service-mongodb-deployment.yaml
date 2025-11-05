@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-mongodb-deployment
+  labels:
+    app: {{ include "legi-bit.name" . }}
+    component: service-mongodb
+spec:
+  replicas: {{ .Values.serviceMongodb.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "legi-bit.name" . }}
+      component: service-mongodb
+  template:
+    metadata:
+      labels:
+        app: {{ include "legi-bit.name" . }}
+        component: service-mongodb
+    spec:
+      containers:
+        - name: service-mongodb
+          image: "{{ .Values.serviceMongodb.image }}"
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.serviceMongodb.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.serviceMongodb.configMapName }}
+            #- secretRef:
+            #    name: service-mongodb-secret
+          resources:
+{{ toYaml .Values.serviceMongodb.resources | indent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.serviceMongodb.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.serviceMongodb.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      restartPolicy: Always

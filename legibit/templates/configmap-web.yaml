@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.web.configMapName }}
+  labels:
+    app: {{ include "legi-bit.name" . }}
+    component: web
+data:
+  FLASK_SERVER_ADDR: "{{ .Values.web.backendUrl }}"
+  DOMAIN_NAME: "{{ .Values.web.domainName }}"

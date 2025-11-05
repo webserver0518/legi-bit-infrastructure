@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-s3-deployment
+  labels:
+    app: {{ include "legi-bit.name" . }}
+    component: service-s3
+spec:
+  replicas: {{ .Values.serviceS3.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "legi-bit.name" . }}
+      component: service-s3
+  template:
+    metadata:
+      labels:
+        app: {{ include "legi-bit.name" . }}
+        component: service-s3
+    spec:
+      containers:
+        - name: service-s3
+          image: "{{ .Values.serviceS3.image }}"
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.serviceS3.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.serviceS3.configMapName }}
+            #- secretRef:
+            #    name: service-s3-secret
+          volumeMounts:
+            - name: aws-credentials
+              mountPath: /root/.aws
+              readOnly: true
+          resources:
+{{ toYaml .Values.serviceS3.resources | indent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.serviceS3.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.serviceS3.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      volumes:
+        - name: aws-credentials
+          secret:
+            secretName: {{ .Values.serviceS3.secretName }}
+      restartPolicy: Always

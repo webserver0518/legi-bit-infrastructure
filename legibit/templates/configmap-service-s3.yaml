@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.serviceS3.configMapName }}
+  labels:
+    app: {{ include "legi-bit.name" . }}
+    component: service-s3
+data:
+  S3_SERVER_PORT: "{{ .Values.serviceS3.port }}"
+  HEALTHCHECK_PATH: "{{ .Values.serviceS3.healthcheckPath }}"
+  MAX_UPLOAD_SIZE_MB: "{{ .Values.serviceS3.maxUploadSizeMb }}"

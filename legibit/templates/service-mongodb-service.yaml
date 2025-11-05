@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.serviceMongodb.serviceName }}
+  labels:
+    app: {{ include "legi-bit.name" . }}
+    component: service-mongodb
+spec:
+  type: {{ .Values.serviceMongodb.service.type }}
+  selector:
+    app: {{ include "legi-bit.name" . }}
+    component: service-mongodb
+  ports:
+    - name: http
+      port: {{ .Values.serviceMongodb.service.port }}
+      targetPort: {{ .Values.serviceMongodb.port }}
