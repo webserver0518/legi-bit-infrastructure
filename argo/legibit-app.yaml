@@ -12,6 +12,8 @@ metadata:
       s3=webserver0518/legi-bit-s3
 
     # Map image aliases to Helm values
+    argocd-image-updater.argoproj.io/image-tag-prefix: v
+
     argocd-image-updater.argoproj.io/web.helm.image-name: web.image.repository
     argocd-image-updater.argoproj.io/web.helm.image-tag: web.image.tag
 
