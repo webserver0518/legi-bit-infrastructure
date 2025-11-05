@@ -17,6 +17,7 @@ spec:
         app: {{ include "legi-bit.name" . }}
         component: service-mongodb
     spec:
+      serviceAccountName: legibit-sa
       containers:
         - name: service-mongodb
           image: "{{ .Values.serviceMongodb.image.repository }}:{{ .Values.serviceMongodb.image.tag }}"

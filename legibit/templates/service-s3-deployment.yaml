@@ -17,6 +17,7 @@ spec:
         app: {{ include "legi-bit.name" . }}
         component: service-s3
     spec:
+      serviceAccountName: legibit-sa
       containers:
         - name: service-s3
           image: "{{ .Values.serviceS3.image.repository }}:{{ .Values.serviceS3.image.tag }}"
