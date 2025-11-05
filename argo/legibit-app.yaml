@@ -4,31 +4,29 @@ metadata:
   name: legibit
   namespace: argocd
   annotations:
-    # images to follow from docker hub by the image updater
+    # Images that ArgoCD Image Updater will follow
     argocd-image-updater.argoproj.io/image-list: |
       flask=webserver0518/legi-bit-flask,
       s3=webserver0518/legi-bit-s3,
       mongodb=webserver0518/legi-bit-mongodb,
       nginx=webserver0518/legi-bit-nginx
 
-    # update strategy - latest (highest tag)
     argocd-image-updater.argoproj.io/flask.update-strategy: latest
     argocd-image-updater.argoproj.io/s3.update-strategy: latest
     argocd-image-updater.argoproj.io/mongodb.update-strategy: latest
     argocd-image-updater.argoproj.io/nginx.update-strategy: latest
 
-    # write back -> git
-    argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/git-branch: main
+    argocd-image-updater.argoproj.io/write-back-method: helm
+    argocd-image-updater.argoproj.io/helm.chart-repo: https://webserver0518.github.io/legi-bit-infrastructure/
+
 
 spec:
   project: default
 
   source:
-    repoURL: https://webserver0518.github.io/legi-bit-infrastructure
+    repoURL: https://webserver0518.github.io/legi-bit-infrastructure/
     chart: legibit
-    targetRevision: main
-    path: legibit
+    targetRevision: 0.1.0
     helm:
       releaseName: legibit
 
