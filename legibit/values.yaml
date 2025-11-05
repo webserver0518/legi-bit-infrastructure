@@ -156,7 +156,7 @@ ingress:
 web:
   image:
     repository: webserver0518/legi-bit-nginx
-    tag: "0.3"
+    tag: "v0.3"
   port: 80
   replicas: 1
   resources:
@@ -179,7 +179,7 @@ web:
 backend:
   image:
     repository: webserver0518/legi-bit-flask
-    tag: "0.3"
+    tag: "v0.3"
   port: 9000
   replicas: 1
   resources:
@@ -202,7 +202,7 @@ backend:
 serviceMongodb:
   image:
     repository: webserver0518/legi-bit-mongodb
-    tag: "0.3"
+    tag: "v0.3"
   port: 8001
   replicas: 1
   resources:
@@ -229,7 +229,7 @@ serviceMongodb:
 serviceS3:
   image:
     repository: webserver0518/legi-bit-s3
-    tag: "0.3"
+    tag: "v0.3"
   port: 8000
   replicas: 1
   secretName: "service-s3-secret"
