@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: service-mongodb
-          image: "{{ .Values.serviceMongodb.image }}"
+          image: "{{ .Values.serviceMongodb.image.repository }}:{{ .Values.serviceMongodb.image.tag }}"
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.serviceMongodb.port }}
