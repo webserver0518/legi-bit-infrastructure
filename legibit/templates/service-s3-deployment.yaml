@@ -23,6 +23,7 @@ spec:
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.serviceS3.port }}
+
           envFrom:
             - configMapRef:
                 name: {{ .Values.serviceS3.configMapName }}
@@ -30,21 +31,49 @@ spec:
             - secretRef:
                 name: {{ .Values.serviceS3.secretProvider.secretName }}
             {{- end }}
+
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: S3_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: s3-secret
+                  key: S3_BUCKET_NAME
+
+          volumeMounts:
+            - name: aws-secrets
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+
+
           resources:
 {{ toYaml .Values.serviceS3.resources | indent 12 }}
+
           livenessProbe:
             httpGet:
               path: /healthz
               port: {{ .Values.serviceS3.port }}
             initialDelaySeconds: 20
             periodSeconds: 30
+
           readinessProbe:
             httpGet:
               path: /healthz
               port: {{ .Values.serviceS3.port }}
             initialDelaySeconds: 10
             periodSeconds: 15
+
       restartPolicy: Always
+
       {{- if .Values.serviceS3.secretProvider.enabled }}
       volumes:
         - name: aws-secrets

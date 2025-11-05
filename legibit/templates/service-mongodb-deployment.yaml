@@ -23,6 +23,7 @@ spec:
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.serviceMongodb.port }}
+
           envFrom:
             - configMapRef:
                 name: {{ .Values.serviceMongodb.configMapName }}
@@ -30,21 +31,38 @@ spec:
             - secretRef:
                 name: {{ .Values.serviceMongodb.secretProvider.secretName }}
             {{- end }}
+
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: MONGO_URI
+
+          volumeMounts:
+            - name: aws-secrets
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+
           resources:
 {{ toYaml .Values.serviceMongodb.resources | indent 12 }}
+
           livenessProbe:
             httpGet:
               path: /healthz
               port: {{ .Values.serviceMongodb.port }}
             initialDelaySeconds: 20
             periodSeconds: 30
+
           readinessProbe:
             httpGet:
               path: /healthz
               port: {{ .Values.serviceMongodb.port }}
             initialDelaySeconds: 10
             periodSeconds: 15
+
       restartPolicy: Always
+
       {{- if .Values.serviceMongodb.secretProvider.enabled }}
       volumes:
         - name: aws-secrets
