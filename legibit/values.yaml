@@ -259,7 +259,7 @@ serviceS3:
 
   secretProvider:
     enabled: true
-    secretName: "service-s3-secret"
+    secretName: "s3-secret"
     awsSecretName: "legibit/service-s3"
 
 redis:
