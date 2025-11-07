@@ -9,7 +9,7 @@ Legi-Bit is a modular SaaS platform built with a microservices architecture for 
 
 Legi-Bit is deployed in a production-like environment running on:
 
-- AWS EC2 with Kubernetes (k3s) installed
+- AWS EC2 with Kubernetes installed
 - Docker images hosted in Docker Hub
 - GitOps workflow managed by Argo CD
 - IaC using Helm
@@ -24,11 +24,11 @@ Developer → GitHub → Docker Hub → Argo CD → Kubernetes
 
 ## 🧩 Repository Structure
 
-| Repository     | Purpose                                                    |
-|----------------|------------------------------------------------------------|
-| Application    | backend & frontend, containerized and pushed to Docker Hub |
-| Infrastructure | Helm chart + Argo CD application manifests                 |
-| Secure secrets | Runtime credentials stored encrypted & Argo CD manifest    |
+| Repository     | Link                                                              | Purpose                                                    |
+|----------------|-------------------------------------------------------------------|------------------------------------------------------------|
+| Application    | [app repo](https://github.com/webserver0518/legi-bit-application) | backend & frontend, containerized and pushed to Docker Hub |
+| Infrastructure |                                                                   | Helm chart + Argo CD application manifests                 |
+| Secure secrets |                                                                   | Runtime credentials stored encrypted & Argo CD manifest    |
 
 ---
 
