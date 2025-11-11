@@ -47,6 +47,9 @@ spec:
     path: legibit
     helm:
       releaseName: legibit
+      valueFiles:
+        - values.yaml
+        - prod.yaml
 
   destination:
     server: https://kubernetes.default.svc
