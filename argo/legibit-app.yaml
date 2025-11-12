@@ -4,6 +4,11 @@ metadata:
   name: legibit
   namespace: argocd
   annotations:
+    # Write-back configuration (GitOps)
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: helm
+    argocd-image-updater.argoproj.io/git-branch: main
+
     # Images to follow
     argocd-image-updater.argoproj.io/image-list: |
       web=webserver0518/legi-bit-nginx,
@@ -11,33 +16,25 @@ metadata:
       mongodb=webserver0518/legi-bit-mongodb,
       s3=webserver0518/legi-bit-s3
 
-    # Map image aliases to Helm values
-    argocd-image-updater.argoproj.io/web.helm.image-name: web.image.repository
-    argocd-image-updater.argoproj.io/web.helm.image-tag: web.image.tag
-    argocd-image-updater.argoproj.io/web.tag-prefix: v
+    # --- WEB (NGINX) ---
+    argocd-image-updater.argoproj.io/web.image-name: webserver0518/legi-bit-nginx
+    argocd-image-updater.argoproj.io/web.update-strategy: semver
+    argocd-image-updater.argoproj.io/web.helm.image-tag: "web.image.tag"
 
-    argocd-image-updater.argoproj.io/backend.helm.image-name: backend.image.repository
-    argocd-image-updater.argoproj.io/backend.helm.image-tag: backend.image.tag
-    argocd-image-updater.argoproj.io/backend.tag-prefix: v
+    # --- BACKEND (Flask) ---
+    argocd-image-updater.argoproj.io/backend.image-name: webserver0518/legi-bit-flask
+    argocd-image-updater.argoproj.io/backend.update-strategy: semver
+    argocd-image-updater.argoproj.io/backend.helm.image-tag: "backend.image.tag"
 
-    argocd-image-updater.argoproj.io/mongodb.helm.image-name: serviceMongodb.image.repository
-    argocd-image-updater.argoproj.io/mongodb.helm.image-tag: serviceMongodb.image.tag
-    argocd-image-updater.argoproj.io/mongodb.tag-prefix: v
+    # --- MongoDB ---
+    argocd-image-updater.argoproj.io/mongodb.image-name: webserver0518/legi-bit-mongodb
+    argocd-image-updater.argoproj.io/mongodb.update-strategy: semver
+    argocd-image-updater.argoproj.io/mongodb.helm.image-tag: "serviceMongodb.image.tag"
 
-    argocd-image-updater.argoproj.io/s3.helm.image-name: serviceS3.image.repository
-    argocd-image-updater.argoproj.io/s3.helm.image-tag: serviceS3.image.tag
-    argocd-image-updater.argoproj.io/s3.tag-prefix: v
-
-    # Update strategy
-    argocd-image-updater.argoproj.io/web.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/backend.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/mongodb.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/s3.update-strategy: newest-build
-
-    # Write-back configuration (GitOps)
-    argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/write-back-target: application
-    argocd-image-updater.argoproj.io/git-branch: main
+    # --- S3 Service ---
+    argocd-image-updater.argoproj.io/s3.image-name: webserver0518/legi-bit-s3
+    argocd-image-updater.argoproj.io/s3.update-strategy: semver
+    argocd-image-updater.argoproj.io/s3.helm.image-tag: "serviceS3.image.tag"
 
 spec:
   project: default
