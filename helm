@@ -1,0 +1,17 @@
+helm:
+  parameters:
+  - name: image.name
+    value: webserver0518/legi-bit-s3
+    forcestring: true
+  - name: web.image.tag
+    value: v0.10
+    forcestring: true
+  - name: backend.image.tag
+    value: v0.10
+    forcestring: true
+  - name: serviceMongodb.image.tag
+    value: v0.10
+    forcestring: true
+  - name: serviceS3.image.tag
+    value: v0.10
+    forcestring: true
