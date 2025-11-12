@@ -36,6 +36,7 @@ metadata:
 
     # Write-back configuration (GitOps)
     argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: application
     argocd-image-updater.argoproj.io/git-branch: main
 
 spec:
