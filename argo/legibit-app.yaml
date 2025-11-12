@@ -36,7 +36,6 @@ metadata:
 
     # Write-back configuration (GitOps)
     argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/write-back-target: legibit/image_overrides.yaml
     argocd-image-updater.argoproj.io/git-branch: main
 
 spec:
@@ -48,10 +47,6 @@ spec:
     path: legibit
     helm:
       releaseName: legibit
-      valueFiles:
-        - values.yaml
-        - prod.yaml
-        - image_overrides.yaml
 
   destination:
     server: https://kubernetes.default.svc
