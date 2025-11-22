@@ -143,6 +143,12 @@ tolerations: []
 
 affinity: {}
 
+network:
+  publicSubnets:
+    - subnet-0a044c1a78eebf032
+    - subnet-0f567de7dfc506182
+    - subnet-007e9c39120d90a5d
+
 global:
   imagePullPolicy: IfNotPresent
   domain: legi-bit.com
