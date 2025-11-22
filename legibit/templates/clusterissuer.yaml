@@ -9,7 +9,6 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod-private-key
     solvers:
-      - dns01:
-        route53:
-          region: eu-north-1
-          hostedZoneID: {{ .Values.route53.hostedZoneId }}
+      - http01:
+          ingress:
+            class: traefik
