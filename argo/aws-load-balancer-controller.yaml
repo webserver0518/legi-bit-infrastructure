@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aws-load-balancer-controller
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  source:
+    repoURL: https://aws.github.io/eks-charts
+    chart: aws-load-balancer-controller
+    targetRevision: "*"
+    helm:
+      parameters:
+        - name: clusterName
+          value: legibit-k3s # ← שנה לשם הקלאסטר שלך
+        - name: region
+          value: eu-north-1 # ← שנה במידת הצורך
+        - name: serviceAccount.create
+          value: "true"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
