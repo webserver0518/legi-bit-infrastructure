@@ -152,10 +152,11 @@ network:
 global:
   imagePullPolicy: IfNotPresent
   domain: legi-bit.com
+  wwwdomain: www.legi-bit.com
 
 ingress:
   name: "legibit-ingress"
-  tlsSecretName: legibit-tls
+  acmCertificateArn: "arn:aws:acm:eu-north-1:780180237362:certificate/104562a5-1c06-4008-8af2-c790775c1907"
 
 web:
   image:
