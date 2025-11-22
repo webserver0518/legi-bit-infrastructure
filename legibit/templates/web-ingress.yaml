@@ -5,12 +5,11 @@ metadata:
   labels:
     app: {{ include "legi-bit.name" . }}
   annotations:
-    kubernetes.io/ingress.class: "traefik"
+    kubernetes.io/ingress.class: "nginx"
     # Annotations for cert-manager to use Let's Encrypt
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    acme.cert-manager.io/http01-ingress-class: "traefik"
 spec:
-  ingressClassName: "traefik"
+  ingressClassName: "nginx"
   # TLS configuration
   tls:
     - hosts:
