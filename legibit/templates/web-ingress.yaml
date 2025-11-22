@@ -28,6 +28,8 @@ spec:
                 port:
                   number: {{ .Values.backend.service.port }}
 
+    - http:
+        paths:
           - path: /alb-health
             pathType: Prefix
             backend:
