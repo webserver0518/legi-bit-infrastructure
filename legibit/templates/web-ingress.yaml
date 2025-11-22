@@ -22,7 +22,7 @@ spec:
   rules:
     - host: {{ .Values.global.domain }}
       http:
-                paths:
+        paths:
           # אם יש לך שירות NGINX "web" – ננתב את שורש האתר אליו,
           # אחרת אפשר להשאיר לשורה הבאה (backend) ולהסיר את הבלוק הזה.
           - path: /
