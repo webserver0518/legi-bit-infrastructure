@@ -18,9 +18,8 @@ metadata:
     alb.ingress.kubernetes.io/security-groups: sg-009b4bd9f3d3de562
 
     alb.ingress.kubernetes.io/subnets: '{{ join "," .Values.network.publicSubnets }}'
-    
-    # כשנוסיף ACM, נבטל את השורה למטה מהערה ונכניס את ה-ARN:
-    # alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.acmCertificateArn | quote }}
+
+    lb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=120,access_logs.s3.enabled=true,access_logs.s3.bucket=legi-bit-alb-logs,access_logs.s3.prefix=alb"
 
 spec:
   ingressClassName: "alb"
