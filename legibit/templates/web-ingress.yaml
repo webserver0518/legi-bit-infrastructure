@@ -42,7 +42,7 @@ spec:
                   number: {{ .Values.backend.service.port }}
 
           # HEALTH CHECK path (MUST NOT redirect)
-          - path: /alb-health
+          - path: /healthz
             pathType: Exact
             backend:
               service:
@@ -63,7 +63,7 @@ spec:
                   number: {{ .Values.backend.service.port }}
 
           # HEALTH CHECK path (MUST NOT redirect)
-          - path: /alb-health
+          - path: /healthz
             pathType: Exact
             backend:
               service:
