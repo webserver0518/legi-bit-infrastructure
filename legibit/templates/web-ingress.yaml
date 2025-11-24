@@ -11,16 +11,19 @@ metadata:
     alb.ingress.kubernetes.io/security-groups: sg-009b4bd9f3d3de562
     alb.ingress.kubernetes.io/subnets: '{{ join "," .Values.network.publicSubnets }}'
     alb.ingress.kubernetes.io/scheme: internet-facing
-    
+
     alb.ingress.kubernetes.io/target-group-name: legibit-backend-tg
     alb.ingress.kubernetes.io/target-type: ip
 
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/actions.ssl-redirect: >
-      {"Type": "redirect", "RedirectConfig":
-      {"Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.acmCertificateArn }}
 
+    # Redirect action
+    alb.ingress.kubernetes.io/actions.ssl-redirect: >
+      {"Type": "redirect", "RedirectConfig":
+       {"Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}
+
+    # Health check path
     alb.ingress.kubernetes.io/healthcheck-path: /alb-health
     alb.ingress.kubernetes.io/success-codes: '200-399'
 
@@ -32,18 +35,27 @@ spec:
     - host: {{ .Values.global.domain }}
       http:
         paths:
-          # Redirect all HTTP traffic
-          - path: /
-            pathType: Prefix
+          # 1. Health check (HTTP only, no redirect)
+          - path: /alb-health
+            pathType: Exact
             backend:
               service:
                 name: {{ .Values.backend.serviceName }}
                 port:
                   number: {{ .Values.backend.service.port }}
 
-          # HEALTH CHECK path (MUST NOT redirect)
-          - path: /healthz
-            pathType: Exact
+          # 2. HTTP → HTTPS redirect
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ssl-redirect
+                port:
+                  name: use-annotation
+
+          # 3. HTTPS → backend
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Values.backend.serviceName }}
@@ -53,18 +65,24 @@ spec:
     - host: {{ .Values.global.wwwdomain }}
       http:
         paths:
-          # Redirect all HTTP traffic
-          - path: /
-            pathType: Prefix
+          - path: /alb-health
+            pathType: Exact
             backend:
               service:
                 name: {{ .Values.backend.serviceName }}
                 port:
                   number: {{ .Values.backend.service.port }}
 
-          # HEALTH CHECK path (MUST NOT redirect)
-          - path: /healthz
-            pathType: Exact
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ssl-redirect
+                port:
+                  name: use-annotation
+
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Values.backend.serviceName }}
