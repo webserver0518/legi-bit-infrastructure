@@ -12,7 +12,6 @@ metadata:
     alb.ingress.kubernetes.io/subnets: '{{ join "," .Values.network.publicSubnets }}'
     alb.ingress.kubernetes.io/scheme: internet-facing
 
-    alb.ingress.kubernetes.io/target-group-name: legibit-backend-tg
     alb.ingress.kubernetes.io/target-type: instance
 
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
