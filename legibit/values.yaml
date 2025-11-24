@@ -202,10 +202,10 @@ backend:
 
   serviceName: "backend"
   service:
-    type: ClusterIP
+    type: NodePort
     port: 9000
     targetPort: 9000
-    nodePort: 30900
+    nodePort: 30090
 
 serviceMongodb:
   image:
