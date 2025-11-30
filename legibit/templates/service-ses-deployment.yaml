@@ -27,9 +27,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.serviceSES.configMapName }}
-            - secretRef:
-                name: ses-secret
-
+          
           resources:
 {{ toYaml .Values.serviceSES.resources | indent 12 }}
 
