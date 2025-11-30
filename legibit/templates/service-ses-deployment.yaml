@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-s3-deployment
+  name: service-ses-deployment
   labels:
     app: {{ include "legi-bit.name" . }}
     component: service-ses
