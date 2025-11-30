@@ -10,6 +10,7 @@ metadata:
       backend=webserver0518/legi-bit-flask,
       mongodb=webserver0518/legi-bit-mongodb,
       s3=webserver0518/legi-bit-s3
+      ses=webserver0518/legi-bit-ses
 
     # Map image aliases to Helm values
     argocd-image-updater.argoproj.io/web.helm.image-name: web.image.repository
@@ -27,6 +28,10 @@ metadata:
     argocd-image-updater.argoproj.io/s3.helm.image-name: serviceS3.image.repository
     argocd-image-updater.argoproj.io/s3.helm.image-tag: serviceS3.image.tag
     argocd-image-updater.argoproj.io/s3.tag-prefix: v
+
+    argocd-image-updater.argoproj.io/ses.helm.image-name: ses.image.repository
+    argocd-image-updater.argoproj.io/ses.helm.image-tag: ses.image.tag
+    argocd-image-updater.argoproj.io/ses.tag-prefix: v
 
     # Update strategy
     argocd-image-updater.argoproj.io/web.update-strategy: newest-build
