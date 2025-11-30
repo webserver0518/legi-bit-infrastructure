@@ -260,6 +260,31 @@ serviceS3:
     type: ClusterIP
     port: 8000
 
+serviceSES:
+  image:
+    repository: webserver0518/legi-bit-ses
+    tag: "v0.3"
+  port: 8002
+  replicas: 1
+  secretName: "service-ses-secret"
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "300m"
+      memory: "256Mi"
+
+  host: "service-ses"
+
+  configMapName: "service-ses-config"
+  healthcheckPath: "/healthz"
+
+  serviceName: "service-ses"
+  service:
+    type: ClusterIP
+    port: 8002
+
 redis:
   image: "redis:7-alpine"
   port: 6379
