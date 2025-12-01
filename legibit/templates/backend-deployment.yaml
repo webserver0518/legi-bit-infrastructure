@@ -23,23 +23,28 @@ spec:
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.backend.port }}
+          
           envFrom:
             - configMapRef:
                 name: {{ .Values.backend.configMapName }}
-            #- secretRef:
-            #    name: backend-secret
+            - secretRef:
+                name: {{ .Values.backend.secretName }}
+          
           resources:
 {{ toYaml .Values.backend.resources | indent 12 }}
+
           livenessProbe:
             httpGet:
               path: /healthz
               port: {{ .Values.backend.port }}
             initialDelaySeconds: 20
             periodSeconds: 30
+          
           readinessProbe:
             httpGet:
               path: /healthz
               port: {{ .Values.backend.port }}
             initialDelaySeconds: 10
             periodSeconds: 15
+      
       restartPolicy: Always

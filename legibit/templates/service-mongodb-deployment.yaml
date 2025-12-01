@@ -28,7 +28,7 @@ spec:
             - configMapRef:
                 name: {{ .Values.serviceMongodb.configMapName }}
             - secretRef:
-                name: mongodb-secret
+                name: {{ .Values.serviceMongodb.secretName }}
 
           resources:
 {{ toYaml .Values.serviceMongodb.resources | indent 12 }}

@@ -188,6 +188,7 @@ backend:
     tag: "v0.3"
   port: 9000
   replicas: 1
+  secretName: "backend-secret"
   resources:
     requests:
       cpu: "200m"
@@ -213,6 +214,7 @@ serviceMongodb:
     tag: "v0.3"
   port: 8001
   replicas: 1
+  secretName: "mongodb-secret"
   resources:
     requests:
       cpu: "300m"
@@ -240,7 +242,7 @@ serviceS3:
     tag: "v0.3"
   port: 8000
   replicas: 1
-  secretName: "service-s3-secret"
+  secretName: "s3-secret"
   resources:
     requests:
       cpu: "100m"
@@ -266,7 +268,6 @@ serviceSES:
     tag: "v0.3"
   port: 8002
   replicas: 1
-  secretName: "service-ses-secret"
   resources:
     requests:
       cpu: "100m"

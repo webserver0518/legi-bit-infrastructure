@@ -28,7 +28,7 @@ spec:
             - configMapRef:
                 name: {{ .Values.serviceS3.configMapName }}
             - secretRef:
-                name: s3-secret
+                name: {{ .Values.serviceS3.secretName }}
 
           resources:
 {{ toYaml .Values.serviceS3.resources | indent 12 }}
