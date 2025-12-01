@@ -10,13 +10,13 @@ helm:
     value: webserver0518/legi-bit-flask
     forcestring: true
   - name: backend.image.tag
-    value: v0.51
+    value: v0.52
     forcestring: true
   - name: serviceMongodb.image.repository
     value: webserver0518/legi-bit-mongodb
     forcestring: true
   - name: serviceMongodb.image.tag
-    value: v0.51
+    value: v0.52
     forcestring: true
   - name: serviceS3.image.repository
     value: webserver0518/legi-bit-s3
