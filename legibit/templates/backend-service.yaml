@@ -14,5 +14,5 @@ spec:
     - name: http
       port: {{ .Values.backend.service.port }}
       targetPort: {{ .Values.backend.port }}
-      # nodePort: {{ .Values.backend.service.nodePort }}
+      nodePort: {{ .Values.backend.service.nodePort }}
       protocol: TCP
