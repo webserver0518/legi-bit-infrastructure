@@ -1,13 +1,15 @@
-
 apiVersion: argocd-image-updater.argoproj.io/v1alpha1
 kind: ImageUpdater
 metadata:
   name: legibit-updater
   namespace: argocd
 spec:
-  applications:
+
+  namespace: argocd
+
+  applicationRefs:
     - name: legibit
-      namespace: argocd
+
   images:
     - name: web
       image: webserver0518/legi-bit-nginx
@@ -15,32 +17,34 @@ spec:
       helm:
         imageName: web.image.repository
         imageTag: web.image.tag
+
     - name: backend
       image: webserver0518/legi-bit-flask
       updateStrategy: newest-build
       helm:
         imageName: backend.image.repository
         imageTag: backend.image.tag
+
     - name: mongodb
       image: webserver0518/legi-bit-mongodb
       updateStrategy: newest-build
       helm:
         imageName: serviceMongodb.image.repository
         imageTag: serviceMongodb.image.tag
+
     - name: s3
       image: webserver0518/legi-bit-s3
       updateStrategy: newest-build
       helm:
         imageName: serviceS3.image.repository
         imageTag: serviceS3.image.tag
+
     - name: ses
       image: webserver0518/legi-bit-ses
       updateStrategy: newest-build
       helm:
         imageName: ses.image.repository
         imageTag: ses.image.tag
+
   writeBack:
     method: git
-    git:
-      repo: https://github.com/webserver0518/legi-bit-infrastructure.git
-      branch: main
