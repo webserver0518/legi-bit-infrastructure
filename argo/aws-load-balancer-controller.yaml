@@ -15,9 +15,9 @@ spec:
     helm:
       parameters:
         - name: clusterName
-          value: legibit-k3s # ← שנה לשם הקלאסטר שלך
+          value: legibit-k3s
         - name: region
-          value: eu-north-1 # ← שנה במידת הצורך
+          value: eu-north-1
         - name: serviceAccount.create
           value: "true"
   syncPolicy:
