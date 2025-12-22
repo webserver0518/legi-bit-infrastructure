@@ -9,7 +9,7 @@ metadata:
       web=webserver0518/legi-bit-nginx,
       backend=webserver0518/legi-bit-flask,
       mongodb=webserver0518/legi-bit-mongodb,
-      s3=webserver0518/legi-bit-s3
+      s3=webserver0518/legi-bit-s3,
       ses=webserver0518/legi-bit-ses
 
     # Map image aliases to Helm values
