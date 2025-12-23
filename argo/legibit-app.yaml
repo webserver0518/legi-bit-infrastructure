@@ -29,15 +29,16 @@ metadata:
     argocd-image-updater.argoproj.io/s3.helm.image-tag: serviceS3.image.tag
     argocd-image-updater.argoproj.io/s3.tag-prefix: v
 
-    argocd-image-updater.argoproj.io/ses.helm.image-name: ses.image.repository
-    argocd-image-updater.argoproj.io/ses.helm.image-tag: ses.image.tag
+    argocd-image-updater.argoproj.io/ses.helm.image-name: serviceSES.image.repository
+    argocd-image-updater.argoproj.io/ses.helm.image-tag: serviceSES.image.tag
     argocd-image-updater.argoproj.io/ses.tag-prefix: v
 
     # Update strategy
-    argocd-image-updater.argoproj.io/web.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/backend.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/mongodb.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/s3.update-strategy: newest-build
+    argocd-image-updater.argoproj.io/web.update-strategy: semver
+    argocd-image-updater.argoproj.io/backend.update-strategy: semver
+    argocd-image-updater.argoproj.io/mongodb.update-strategy: semver
+    argocd-image-updater.argoproj.io/s3.update-strategy: semver
+    argocd-image-updater.argoproj.io/ses.update-strategy: semver
 
     # Write-back configuration (GitOps)
     argocd-image-updater.argoproj.io/write-back-method: git
