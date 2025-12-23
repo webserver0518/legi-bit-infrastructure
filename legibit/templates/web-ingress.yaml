@@ -9,6 +9,9 @@ metadata:
     alb.ingress.kubernetes.io/load-balancer-name: legibit-alb
 
     alb.ingress.kubernetes.io/security-groups: sg-009b4bd9f3d3de562
+    alb.ingress.kubernetes.io/manage-backend-security-group-rules: "true"
+    alb.ingress.kubernetes.io/backend-security-group: sg-066258ecfa531bdf5
+
     alb.ingress.kubernetes.io/subnets: '{{ join "," .Values.network.publicSubnets }}'
     alb.ingress.kubernetes.io/scheme: internet-facing
 
