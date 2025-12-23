@@ -18,9 +18,9 @@ helm:
   - name: serviceS3.image.tag
     value: v0.58
     forcestring: true
-  - name: ses.image.repository
+  - name: serviceSES.image.repository
     value: webserver0518/legi-bit-ses
     forcestring: true
-  - name: ses.image.tag
+  - name: serviceSES.image.tag
     value: v0.58
     forcestring: true
