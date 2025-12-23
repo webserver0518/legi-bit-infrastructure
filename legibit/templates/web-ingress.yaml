@@ -18,14 +18,12 @@ metadata:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.acmCertificateArn }}
 
-    alb.ingress.kubernetes.io/actions.ssl-redirect: >
-      {"Type":"redirect","RedirectConfig":{"Protocol":"HTTPS","Port":"443","StatusCode":"HTTP_301"}}
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
 
     alb.ingress.kubernetes.io/healthcheck-path: /alb-health
     alb.ingress.kubernetes.io/success-codes: '200-399'
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
 
-    # במקום CLI:
     alb.ingress.kubernetes.io/target-group-attributes: deregistration_delay.timeout_seconds=10
 
     alb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=120,access_logs.s3.enabled=true,access_logs.s3.bucket=legi-bit-alb-logs,access_logs.s3.prefix=alb"
@@ -45,15 +43,7 @@ spec:
                 port:
                   number: {{ .Values.backend.service.port }}
 
-          # 2. HTTP → HTTPS redirect
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ssl-redirect
-                port:
-                  name: use-annotation
-
+          # 3. HTTPS → backend
           - path: /
             pathType: Prefix
             backend:
@@ -72,14 +62,6 @@ spec:
                 name: {{ .Values.backend.serviceName }}
                 port:
                   number: {{ .Values.backend.service.port }}
-
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ssl-redirect
-                port:
-                  name: use-annotation
 
           - path: /
             pathType: Prefix
