@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://kubernetes.github.io/cloud-provider-aws
     chart: aws-cloud-controller-manager
-    targetRevision: "*"
+    targetRevision: "0.0.10"
     helm:
       values: |
         nodeSelector:
@@ -29,6 +29,7 @@ spec:
           - --cloud-provider=aws
           - --configure-cloud-routes=false
           - --allocate-node-cidrs=false
+          - --cluster-name=legibit
   syncPolicy:
     automated:
       prune: true
