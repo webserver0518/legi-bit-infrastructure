@@ -6,8 +6,7 @@ metadata:
     app: {{ include "legi-bit.name" . }}
 spec:
   # This is an existing AWS Target Group that is already created and working
-  targetGroupARN: arn:aws:elasticloadbalancing:eu-north-1:780180237362:targetgroup/k8s-legibit-webservi-4f9be9f533/096350a5d347dfbf
-  
+  targetGroupARN: arn:aws:elasticloadbalancing:eu-north-1:780180237362:targetgroup/legibit-tg/bcc5ed81fd303b0c
   # Reference to the Kubernetes Service that should be registered in the Target Group
   serviceRef:
     name: {{ .Values.web.serviceName }} # In your case: web-service
