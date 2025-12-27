@@ -1,5 +1,11 @@
 helm:
   parameters:
+  - name: web.image.repository
+    value: webserver0518/legi-bit-nginx
+    forcestring: true
+  - name: web.image.tag
+    value: v0.59
+    forcestring: true
   - name: backend.image.repository
     value: webserver0518/legi-bit-flask
     forcestring: true
