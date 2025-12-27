@@ -158,7 +158,6 @@ ingress:
   name: "legibit-ingress"
   acmCertificateArn: "arn:aws:acm:eu-north-1:780180237362:certificate/104562a5-1c06-4008-8af2-c790775c1907"
   lbAttributes: "idle_timeout.timeout_seconds=120,access_logs.s3.enabled=true,access_logs.s3.bucket=legi-bit-alb-logs,access_logs.s3.prefix=alb"
-  wafArn: "arn:aws:wafv2:eu-north-1:780180237362:regional/webacl/legi-bit-waf/98316faf-350d-48df-9b4a-5df435ba7378"
 
 web:
   image:
@@ -180,8 +179,9 @@ web:
 
   serviceName: "web-service"
   service:
-    type: ClusterIP
+    type: NodePort
     port: 80
+    nodePort: 31180
 
 backend:
   image:
@@ -207,7 +207,7 @@ backend:
     type: NodePort
     port: 9000
     targetPort: 9000
-    nodePort: 30090
+    # nodePort: 30090
 
 serviceMongodb:
   image:
