@@ -15,7 +15,7 @@ spec:
     helm:
       parameters:
         - name: clusterName
-          value: legibit-k3s
+          value: legibit
         - name: region
           value: eu-north-1
         - name: serviceAccount.create
