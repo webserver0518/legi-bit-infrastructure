@@ -39,18 +39,18 @@ spec:
             pathType: Exact
             backend:
               service:
-                name: {{ .Values.backend.serviceName }}
+                name: {{ .Values.web.serviceName }}
                 port:
-                  number: {{ .Values.backend.service.port }}
+                  number: {{ .Values.web.service.port }}
 
-          # 3. HTTPS → backend
+          # 3. HTTPS → web
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.backend.serviceName }}
+                name: {{ .Values.web.serviceName }}
                 port:
-                  number: {{ .Values.backend.service.port }}
+                  number: {{ .Values.web.service.port }}
 
     - host: {{ .Values.global.wwwdomain }}
       http:
@@ -59,14 +59,14 @@ spec:
             pathType: Exact
             backend:
               service:
-                name: {{ .Values.backend.serviceName }}
+                name: {{ .Values.web.serviceName }}
                 port:
-                  number: {{ .Values.backend.service.port }}
+                  number: {{ .Values.web.service.port }}
 
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.backend.serviceName }}
+                name: {{ .Values.web.serviceName }}
                 port:
-                  number: {{ .Values.backend.service.port }}
+                  number: {{ .Values.web.service.port }}
