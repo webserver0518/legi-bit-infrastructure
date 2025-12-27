@@ -204,9 +204,9 @@ backend:
 
   serviceName: "backend"
   service:
-    type: NodePort
+    type: ClusterIP
     port: 9000
-    targetPort: 9000
+    # targetPort: 9000
     # nodePort: 30090
 
 serviceMongodb:
