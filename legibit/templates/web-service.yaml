@@ -11,6 +11,6 @@ spec:
       port: {{ .Values.web.service.port }}
       targetPort: {{ .Values.web.port }}
       protocol: TCP
-      {{- if eq .Values.web.service.type "NodePort" }}
+{{- if eq .Values.web.service.type "NodePort" }}
       nodePort: {{ .Values.web.service.nodePort }}
-      {{- end }}
+{{- end }}
