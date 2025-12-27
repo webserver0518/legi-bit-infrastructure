@@ -1,0 +1,18 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: legibit-web-tgb
+  labels:
+    app: {{ include "legi-bit.name" . }}
+spec:
+  # This is an existing AWS Target Group that is already created and working
+  targetGroupARN: arn:aws:elasticloadbalancing:eu-north-1:780180237362:targetgroup/k8s-legibit-webservi-4f9be9f533/096350a5d347dfbf
+  
+  # Reference to the Kubernetes Service that should be registered in the Target Group
+  serviceRef:
+    name: {{ .Values.web.serviceName }} # In your case: web-service
+    port: {{ .Values.web.service.port }} # Service port (80)
+  
+  # Important: tells the AWS Load Balancer Controller to use NodePort targets
+  # This matches your existing setup (instance target mode)
+  targetType: instance
