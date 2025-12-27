@@ -181,7 +181,7 @@ web:
   service:
     type: NodePort
     port: 80
-    nodePort: 31180
+    nodePort: 30090
 
 backend:
   image:
