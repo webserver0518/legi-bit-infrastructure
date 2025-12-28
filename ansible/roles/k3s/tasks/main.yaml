@@ -1,0 +1,8 @@
+# Task to install K3s if it is not already present
+- name: Install K3s using the official installation script
+  ansible.builtin.shell: curl -sfL https://get.k3s.io | sh -
+  args:
+    # 'creates' tells Ansible to skip this task if the file /usr/local/bin/k3s exists.
+    # This acts as our "check" - if the file is there, we assume K3s is installed.
+    creates: /usr/local/bin/k3s
+  become: true  # Requires root permissions to install system service
