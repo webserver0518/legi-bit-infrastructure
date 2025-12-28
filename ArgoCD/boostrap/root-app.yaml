@@ -12,7 +12,7 @@ spec:
     repoURL: https://github.com/webserver0518/legi-bit-infrastructure.git
     targetRevision: main
     # The path containing apps
-    path: Argo CD
+    path: ArgoCD/apps
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
