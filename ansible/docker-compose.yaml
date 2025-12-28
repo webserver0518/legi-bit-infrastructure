@@ -1,0 +1,25 @@
+# Docker Compose file to run Ansible playbook
+services:
+  ansible:
+    image: quay.io/ansible/ansible-runner:latest
+    container_name: legibit-ansible
+    working_dir: /ansible
+    volumes:
+      - ./:/ansible # Mount current directory to /ansible in container
+      - C:/Users/matan/.ssh/webserver0518.pem:/host_key.pem:ro # Mount SSH key (read-only)
+
+    environment:
+      ANSIBLE_HOST_KEY_CHECKING: "False" # Disable host key checking
+
+    # Command to run the Ansible playbook:
+    # Copy the SSH key inside the container and run the playbook
+    # The SSH key is copied to a temporary location with proper permissions
+    # Then the playbook is executed using that key
+    command: >
+      sh -lc "
+      set -euo pipefail;
+      mkdir -p /tmp/sshkey;
+      cp /host_key.pem /tmp/sshkey/webserver0518.pem;
+      chmod 400 /tmp/sshkey/webserver0518.pem;
+      ansible-playbook -i production.ini site.yaml
+      "
