@@ -1,0 +1,23 @@
+# Install Docker package
+- name: Ensure Docker is installed
+  ansible.builtin.dnf:
+    name: docker
+    state: present
+  become: true
+
+# Start the Docker service and ensure it runs on boot
+- name: Ensure Docker service is started and enabled
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+
+# Add the default user (ec2-user) to the 'docker' group
+# allows running 'docker' commands without 'sudo'
+- name: Add ec2-user to docker group
+  ansible.builtin.user:
+    name: ec2-user
+    groups: docker
+    append: true
+  become: true
