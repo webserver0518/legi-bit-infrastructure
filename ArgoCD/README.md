@@ -1,72 +1,74 @@
-# Argo CD Applications (Legi-Bit on AWS)
+# Argo CD – GitOps Architecture (App of Apps)
 
-Argo CD `Application` manifests to bootstrap AWS cloud integration and deploy **Legi-Bit** via GitOps.
+This directory implements the **App of Apps** pattern to manage the Legi-Bit infrastructure and microservices.  
+Instead of applying multiple manifests manually, a single `root-app` watches the `apps/` directory and automatically syncs any Argo CD `Application` manifest found there.
 
-## Included apps
+---
 
-1) **AWS Cloud Controller Manager** (Helm)
-- App: `aws-cloud-controller-manager` → namespace `kube-system`
-- Chart: `aws-cloud-controller-manager` from `https://kubernetes.github.io/cloud-provider-aws` (revision `*`)
-- Values:
-```yaml
-nodeSelector:
-  node-role.kubernetes.io/control-plane: "true"
+## 📂 Repository Structure
 
-tolerations:
-  - key: "node-role.kubernetes.io/control-plane"
-    operator: "Exists"
-    effect: "NoSchedule"
+| Directory | Description |
+| :--- | :--- |
+| **`boostrap/`** | Contains the `root-app` manifest. This is the entry point for the GitOps workflow. |
+| **`apps/`** | The source of truth. Any Argo CD Application file placed here is automatically deployed by the root app. |
+| **`legacy/`** | Contains older infrastructure manifests (e.g., AWS Controllers) that are not currently managed by the root app. |
 
-hostNetwork: true
+---
 
-args:
-  - --v=2
-  - --cloud-provider=aws
-  - --configure-cloud-routes=false
-  - --allocate-node-cidrs=false
-```
+## 🚀 Getting Started (Bootstrap)
 
-2) **AWS Load Balancer Controller** (Helm)
-- App: `aws-load-balancer-controller` → namespace `kube-system`
-- Chart: `aws-load-balancer-controller` from `https://aws.github.io/eks-charts` (revision `*`)
-- Params:
-  - `clusterName`: `legibit-k3s`
-  - `region`: `eu-north-1`
-  - `serviceAccount.create`: `true`
+To start the GitOps loop, you only need to apply **one file**. This will create the parent application, which will then spawn all child applications.
 
-3) **Legi-Bit** (Helm chart from Git repo)
-- App: `legibit` → namespace `legibit`
-- Repo: `https://github.com/webserver0518/legi-bit-infrastructure.git`
-- Path: `legibit`
-- Release: `legibit`
-
-## Prereqs
-- Kubernetes cluster with **Argo CD** installed (namespace `argocd`)
-- AWS nodes with an **instance profile (IAM role)** granting permissions required by:
-  - Cloud Controller Manager
-  - AWS Load Balancer Controller
-- If you want **instance target mode** for ALBs, use:
-  - `alb.ingress.kubernetes.io/target-type: instance`
-
-## Deploy
 ```bash
-kubectl apply -f cloud-provider-aws.yaml
-kubectl apply -f aws-load-balancer-controller.yaml
-kubectl apply -f legibit-app.yaml
+# Apply the Root App
+kubectl apply -f ArgoCD/boostrap/root-app.yaml
 ```
 
-Verify:
-```bash
-kubectl -n argocd get applications
-```
+### What happens next?
 
-## Image updates (optional)
-`legibit-app.yaml` includes **Argo CD Image Updater** annotations. Images configured:
+- The `root-app` is created in the `argocd` namespace.
+- It scans the `ArgoCD/apps/` folder in this repository.
+- It automatically deploys all applications defined there (e.g., `legibit`, `monitoring`, `secrets`).
 
-```text
-web=webserver0518/legi-bit-nginx,
-backend=webserver0518/legi-bit-flask,
-mongodb=webserver0518/legi-bit-mongodb,
-s3=webserver0518/legi-bit-s3
-ses=webserver0518/legi-bit-ses
-```
+---
+
+## 📦 Managed Applications (in `apps/`)
+
+The following applications are currently active and managed by the `root-app`:
+
+### 1) Legi-Bit (Main App)
+- **File:** `apps/legibit-app.yaml`
+- **Description:** The main microservices stack (Frontend, Backend, MongoDB, S3, SES).
+- **Updates:** Configured with **Argo CD Image Updater** to track image tags from Docker Hub automatically.
+
+### 2) Kube Prometheus Stack (Monitoring)
+- **File:** `apps/monitoring.yaml`
+- **Description:** Full monitoring stack including **Prometheus** & **Grafana**.
+- **Access:** Grafana is exposed via **NodePort `31300`**.
+- **URL:** `http://localhost:3000` *(requires SSH Tunnel)*
+- **Login:** `admin / admin`
+
+### 3) Legi-Bit Secrets
+- **File:** `apps/legibit-secrets.yaml`
+- **Description:** Manages external secrets from the private `legi-bit-secrets` repository.
+
+---
+
+## ⚠️ Legacy Components (in `legacy/`)
+
+The `legacy/` folder contains infrastructure components that were previously applied manually:
+
+- AWS Load Balancer Controller
+- AWS Cloud Controller Manager
+
+**Note:** If these components need to be managed by Argo CD in the future, move their YAML files from `legacy/` into `apps/`.
+
+---
+
+## 🛠️ How to Add a New App
+
+1. Create a new YAML file for your application (e.g., `logging.yaml`).
+2. Place it inside the `ArgoCD/apps/` folder.
+3. Push to Git (`git push`).
+
+Done — the `root-app` will detect the new file and deploy it automatically.
