@@ -1,0 +1,8 @@
+# Ansible playbook for webservers
+- name: Webservers Playbook
+  hosts: webservers
+  gather_facts: true
+  roles:
+    - role: k3s
+    - role: docker
+    - role: argocd
