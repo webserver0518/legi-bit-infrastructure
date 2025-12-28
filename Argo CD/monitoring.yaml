@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    # ensure stability
+    targetRevision: "66.0.0"
+    helm:
+      values: |
+        grafana:
+          # Change the default admin password (default is admin/prom-operator)
+          adminPassword: "admin"
+
+          service:
+            type: NodePort
+            nodePort: 31300
+          
+          # Persistence configuration - optional for simple setups but recommended
+          persistence:
+            enabled: true
+            size: 1Gi
+            
+        prometheus:
+          prometheusSpec:
+            retention: 1d
+            retentionSize: 1GB
+
+            resources:
+              requests:
+                memory: 300Mi
+              limits:
+                memory: 0.5Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # Automatically create the namespace if it doesn't exist
+      - CreateNamespace=true
+      # fix "Too long" annotation error
+      - ServerSideApply=true
