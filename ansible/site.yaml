@@ -1,0 +1,4 @@
+# Ansible master playbook
+# This playbook includes various plays for different host groups
+# Currently, it includes the webservers playbook
+- import_playbook: webservers.yaml
