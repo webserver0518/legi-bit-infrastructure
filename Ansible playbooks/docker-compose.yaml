@@ -12,6 +12,7 @@ services:
       ANSIBLE_HOST_KEY_CHECKING: "False" # Disable host key checking
 
     # Command to run the Ansible playbook:
+    # set -euo pipefail ensures the script exits on errors or unset variables
     # Copy the SSH key inside the container and run the playbook
     # The SSH key is copied to a temporary location with proper permissions
     # Then the playbook is executed using that key
