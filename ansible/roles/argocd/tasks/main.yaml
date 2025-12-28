@@ -1,0 +1,63 @@
+# ansible/roles/argocd/tasks/main.yaml
+---
+
+# Task 1: Create the Namespace
+- name: Create argocd namespace
+  # use the 'command' module to run the raw kubectl command via k3s.
+  ansible.builtin.command:
+    cmd: k3s kubectl create namespace argocd
+  
+  # capture output into variable
+  register: create_ns
+
+  # 'failed_when' defines what counts as a failure.
+  # a non-zero exit code (rc != 0) is a failure.
+  # if the error message says "already exists", it's NOT a failure for us.
+  failed_when: 
+    - create_ns.rc != 0 
+    - "'already exists' not in create_ns.stderr"
+
+  # when to mark the task as "Changed" (yellow).
+  # report a change if we created the namespace (rc == 0).
+  # If it already existed, the rc will be non-zero (but handled above), so it won't be marked as changed.
+  changed_when: create_ns.rc == 0
+
+  # execute as root
+  become: true
+
+
+# Task 2: Install ArgoCD
+# apply the official installation manifest from the ArgoCD GitHub repository.
+- name: Install ArgoCD manifest
+  ansible.builtin.command:
+    # 'apply' creates or updates resources based on the YAML file at the URL.
+    # -n argocd: ensures it is installed in the argocd namespace.
+    cmd: k3s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  
+  register: install_argo
+
+  # Since 'kubectl apply' almost always returns exit code 0, we need to check the output to know if something changed.
+  # If the output contains "created" (new resource) or "configured" (modified resource), we mark it changed.
+  # If it says "unchanged", the task will be green (OK).
+  changed_when: "'created' in install_argo.stdout"
+  
+  become: true
+
+
+# Task 3: Verify Installation (Health Check)
+# wait for the main ArgoCD server component to become "available".
+# This ensures the playbook doesn't finish until the application is up.
+- name: Wait for ArgoCD server to be ready
+  ansible.builtin.command:
+    # 'kubectl wait' pauses execution until a specific condition is met.
+    cmd: k3s kubectl wait --for=condition=available deployment/argocd-server -n argocd --timeout=60s
+  
+  # This task never results in a change.
+  changed_when: false
+
+  # We set failed_when: false because this is just a check.
+  # If the server is slow to start (timeout), we don't want to crash the whole playbook.
+  # We prefer to finish successfully and let the user check the status later.
+  failed_when: false
+  
+  become: true
