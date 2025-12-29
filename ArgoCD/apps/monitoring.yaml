@@ -23,7 +23,7 @@ spec:
           # Persistence configuration - optional for simple setups but recommended
           persistence:
             enabled: true
-            size: 1Gi
+            size: 2Gi
             
         prometheus:
           prometheusSpec:
