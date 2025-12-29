@@ -17,4 +17,4 @@ data:
 
   S3_SERVICE_URL: "http://{{ .Values.serviceS3.host }}:{{ .Values.serviceS3.port }}"
   MONGODB_SERVICE_URL: "http://{{ .Values.serviceMongodb.host }}:{{ .Values.serviceMongodb.port }}"
-  SES_SERVICE_URL: "http://{{ .Values.serviceSes.host }}:{{ .Values.serviceSes.port }}"
+  SES_SERVICE_URL: "http://{{ .Values.serviceSES.host }}:{{ .Values.serviceSES.port }}"
