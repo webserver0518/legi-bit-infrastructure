@@ -22,7 +22,7 @@ helm:
     value: webserver0518/legi-bit-s3
     forcestring: true
   - name: serviceS3.image.tag
-    value: v0.77
+    value: v0.79
     forcestring: true
   - name: serviceSES.image.repository
     value: webserver0518/legi-bit-ses
