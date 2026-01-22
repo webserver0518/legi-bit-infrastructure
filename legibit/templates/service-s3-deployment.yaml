@@ -27,8 +27,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.serviceS3.configMapName }}
-            - secretRef:
-                name: {{ .Values.serviceS3.secretName }}
+#            - secretRef:
+#                name: {{ .Values.serviceS3.secretName }}
 
           resources:
 {{ toYaml .Values.serviceS3.resources | indent 12 }}
