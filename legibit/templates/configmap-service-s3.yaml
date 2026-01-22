@@ -9,3 +9,5 @@ data:
   S3_SERVER_PORT: "{{ .Values.serviceS3.port }}"
   HEALTHCHECK_PATH: "{{ .Values.serviceS3.healthcheckPath }}"
   MAX_UPLOAD_SIZE_MB: "{{ .Values.serviceS3.maxUploadSizeMb }}"
+  S3_BUCKET: "legi-bit-uploads"
+  AWS_REGION: "eu-north-1"
