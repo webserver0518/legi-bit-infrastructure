@@ -7,13 +7,13 @@ It manages the server provisioning, Kubernetes cluster setup, and application de
 
 ## 🚀 Architecture Overview
 
-The infrastructure is built on **AWS EC2** running **K3s** (Lightweight Kubernetes), managed by **Argo CD** in a GitOps workflow.
+The infrastructure is built on **AWS EC2** running **K3s**, managed by **Argo CD** in a GitOps workflow.
 
 ### High-Level Flow
 
 1. **Provisioning:** Ansible configures the EC2 instance, installs Docker, and bootstraps K3s & Argo CD.
 2. **GitOps:** Argo CD watches this repository.
-3. **Deployment:** A "Root App" manages the entire cluster state (Apps, Secrets, Monitoring, AWS Controllers).
+3. **Deployment:** A "Root App" manages the entire cluster state (Apps, Secrets, Monitoring).
 4. **Exposure:** The application is exposed via **AWS Application Load Balancer (ALB)** using `TargetGroupBinding` (**Instance Mode**).
 
 ---
@@ -85,7 +85,7 @@ The root app automatically syncs all manifests found in `ArgoCD/apps/`:
 
 The `legibit` Helm chart deploys the following services:
 
-- **Web (Frontend):** Nginx acting as a reverse proxy
+- **Web:** Nginx acting as a reverse proxy
 - **Backend:** Flask-based application server
 - **MongoDB:** Dedicated database microservice
 - **S3:** File storage abstraction service
@@ -94,9 +94,14 @@ The `legibit` Helm chart deploys the following services:
 
 ---
 
-## 📊 Monitoring & Access
+## 📡 Monitoring
 
-The cluster includes a full monitoring stack (Prometheus/Grafana).
+Service-level monitoring is implemented using **Prometheus Operator** and Kubernetes **ServiceMonitor** resources. When `monitoring.enabled=true` is set in the Helm values, the chart conditionally deploys `ServiceMonitor` objects that instruct Prometheus to automatically discover and scrape `/metrics` endpoints from the application microservices.
+
+- **Discovery:** Prometheus Operator watches for `ServiceMonitor` resources with a matching `release` label and dynamically adds matching Services as scrape targets.
+- **Selection:** Each ServiceMonitor selects a Kubernetes `Service` using the `app.kubernetes.io/name` label.
+- **Scraping:** Metrics are collected from the named Service port `http` at the `/metrics` path with a `15s` interval.
+- **Monitored Services:** Backend (Flask), S3 service, SES service.
 
 ### Accessing Grafana
 
@@ -119,7 +124,7 @@ ssh -i /path/to/key.pem -L 3000:localhost:31300 ec2-user@<SERVER_IP>
 
 ---
 
-## ☁️ Cloud Integration
+## ☁️ Cloud Integration (Legacy)
 
 - **AWS Load Balancer Controller:** Manages ALBs.
 - **TargetGroupBinding:** Connects the web service directly to an AWS Target Group, bypassing standard Kubernetes `LoadBalancer` Services.
@@ -128,9 +133,8 @@ ssh -i /path/to/key.pem -L 3000:localhost:31300 ec2-user@<SERVER_IP>
 
 ## 🔄 CI/CD Workflow
 
-1. **Code Push:** Developers push code to GitHub.
-2. **CI:** GitHub Actions builds Docker images and pushes them to Docker Hub.
-3. **CD:** Argo CD Image Updater detects the new tag and updates the Helm release in K3s automatically.
+- **CI:** Developers push code to GitHub, GitHub Actions worflow builds Docker images and pushes them to Docker Hub.
+- **CD:** Argo CD Image Updater detects the new tag and updates the '.argocd-source-legibit.yaml' file with the new tags. then ArgoCD has auto-sync and updates the cluster.
 
 ---
 
