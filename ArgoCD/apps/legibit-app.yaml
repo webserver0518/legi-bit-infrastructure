@@ -21,16 +21,16 @@ metadata:
     argocd-image-updater.argoproj.io/backend.helm.image-tag: backend.image.tag
     argocd-image-updater.argoproj.io/backend.tag-prefix: v
 
-    argocd-image-updater.argoproj.io/mongodb.helm.image-name: serviceMongodb.image.repository
-    argocd-image-updater.argoproj.io/mongodb.helm.image-tag: serviceMongodb.image.tag
+    argocd-image-updater.argoproj.io/mongodb.helm.image-name: mongodb.image.repository
+    argocd-image-updater.argoproj.io/mongodb.helm.image-tag: mongodb.image.tag
     argocd-image-updater.argoproj.io/mongodb.tag-prefix: v
 
-    argocd-image-updater.argoproj.io/s3.helm.image-name: serviceS3.image.repository
-    argocd-image-updater.argoproj.io/s3.helm.image-tag: serviceS3.image.tag
+    argocd-image-updater.argoproj.io/s3.helm.image-name: s3.image.repository
+    argocd-image-updater.argoproj.io/s3.helm.image-tag: s3.image.tag
     argocd-image-updater.argoproj.io/s3.tag-prefix: v
 
-    argocd-image-updater.argoproj.io/ses.helm.image-name: serviceSES.image.repository
-    argocd-image-updater.argoproj.io/ses.helm.image-tag: serviceSES.image.tag
+    argocd-image-updater.argoproj.io/ses.helm.image-name: ses.image.repository
+    argocd-image-updater.argoproj.io/ses.helm.image-tag: ses.image.tag
     argocd-image-updater.argoproj.io/ses.tag-prefix: v
 
     # Update strategy
@@ -53,6 +53,9 @@ spec:
     path: legibit
     helm:
       releaseName: legibit
+      valueFiles:
+        - values.yaml
+        - .argocd-source-legibit.yaml
 
   destination:
     server: https://kubernetes.default.svc

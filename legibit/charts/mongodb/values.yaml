@@ -1,0 +1,31 @@
+# legibit/charts/mongodb/values.yaml
+image:
+  repository: webserver0518/legi-bit-mongodb
+  tag: "v0.3"
+  pullPolicy: IfNotPresent
+
+port: 8001
+replicas: 1
+
+secretName: "mongodb-secret"
+
+resources:
+  requests:
+    cpu: "300m"
+    memory: "512Mi"
+  limits:
+    cpu: "600m"
+    memory: "768Mi"
+
+host: "service-mongodb"
+
+configMapName: "service-mongodb-config"
+healthcheckPath: "/healthz"
+serverSelectionTimeout: "30000"
+socketTimeout: "10000"
+maxPoolSize: "100"
+
+serviceName: "mongodb"
+service:
+  type: ClusterIP
+  port: 8001

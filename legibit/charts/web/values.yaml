@@ -1,0 +1,26 @@
+# legibit/charts/web/values.yaml
+image:
+  repository: webserver0518/legi-bit-nginx
+  tag: "v0.3"
+  pullPolicy: IfNotPresent
+
+port: 80
+replicas: 1
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "300m"
+    memory: "256Mi"
+
+configMapName: "web-config"
+backendUrl: "backend:9000"
+domainName: "legi-bit.com"
+
+serviceName: "web-service"
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30090

@@ -1,0 +1,29 @@
+# legibit/charts/s3/values.yaml
+image:
+  repository: webserver0518/legi-bit-s3
+  tag: "v0.3"
+  pullPolicy: IfNotPresent
+
+port: 8000
+replicas: 1
+
+secretName: "s3-secret"
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "300m"
+    memory: "256Mi"
+
+host: "service-s3"
+
+configMapName: "service-s3-config"
+healthcheckPath: "/healthz"
+maxUploadSizeMb: "50"
+
+serviceName: "s3"
+service:
+  type: ClusterIP
+  port: 8000

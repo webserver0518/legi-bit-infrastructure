@@ -1,0 +1,18 @@
+{{- if .Values.global.monitoring.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-ses-monitor
+  labels:
+    release: prometheus
+    app: ses
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "ses.name" . }}
+      app.kubernetes.io/component: ses
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+{{- end }}

@@ -1,0 +1,27 @@
+# legibit/charts/backend/values.yaml
+image:
+  repository: webserver0518/legi-bit-flask
+  tag: "v0.3"
+  pullPolicy: IfNotPresent
+
+port: 9000
+replicas: 1
+
+secretName: "backend-secret"
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "400m"
+    memory: "512Mi"
+
+configMapName: "backend-config"
+env: "development"
+secretKey: "dfb594091faa05005d1212f4cdce9dc64a81c9ff50253210520375a9fd25a934"
+
+serviceName: "backend"
+service:
+  type: ClusterIP
+  port: 9000

@@ -1,0 +1,20 @@
+# legibit/charts/redis/values.yaml
+image: "redis:7-alpine"
+port: 6379
+replicas: 1
+
+resources:
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+  limits:
+    cpu: "150m"
+    memory: "128Mi"
+
+host: "redis"
+db: "0"
+
+serviceName: "redis"
+service:
+  type: ClusterIP
+  port: 6379

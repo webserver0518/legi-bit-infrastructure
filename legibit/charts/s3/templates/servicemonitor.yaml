@@ -1,0 +1,18 @@
+{{- if .Values.global.monitoring.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-s3-monitor
+  labels:
+    release: prometheus
+    app: s3
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "s3.name" . }}
+      app.kubernetes.io/component: s3
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+{{- end }}
