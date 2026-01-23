@@ -309,3 +309,6 @@ redis:
 
 https:
   email: webserver0518@gmail.com
+
+monitoring:
+  enabled: true
