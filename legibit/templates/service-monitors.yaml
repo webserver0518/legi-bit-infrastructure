@@ -1,0 +1,51 @@
+{{- if .Values.monitoring.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-backend-monitor
+  labels:
+    release: prometheus # Must match the Prometheus Helm release name
+    app: backend
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: backend # Must match the Service label
+  endpoints:
+    - port: http # Must match the Service port name (not the port number)
+      path: /metrics
+      interval: 15s
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-s3-monitor
+  labels:
+    release: prometheus
+    app: service-s3
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: service-s3
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-ses-monitor
+  labels:
+    release: prometheus
+    app: service-ses
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: service-ses
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+{{- end }}
