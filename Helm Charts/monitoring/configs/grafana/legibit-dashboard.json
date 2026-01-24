@@ -25,7 +25,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "Prometheus"
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -102,7 +102,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "Prometheus"
+                        "uid": "prometheus"
                     },
                     "editorMode": "code",
                     "expr": "increase(app_login_attempts_total[$__interval])",
@@ -117,7 +117,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "Prometheus"
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -194,7 +194,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "Prometheus"
+                        "uid": "prometheus"
                     },
                     "editorMode": "code",
                     "expr": "increase(app_file_downloads_total[$__interval])",
@@ -209,7 +209,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "Prometheus"
+                "uid": "prometheus"
             },
             "fieldConfig": {
                 "defaults": {
@@ -286,7 +286,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "Prometheus"
+                        "uid": "prometheus"
                     },
                     "editorMode": "code",
                     "expr": "increase(app_emails_sent_total[$__interval])",
