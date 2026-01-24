@@ -24,7 +24,7 @@ The infrastructure is built on **AWS EC2** running **K3s**, managed by **Argo CD
 | :--- | :--- |
 | **`Ansible playbooks/`** | Automation scripts to provision the server (install Docker, K3s, Argo CD). |
 | **`ArgoCD/`** | GitOps configuration following the **App of Apps** pattern (`bootstrap`, `apps`, `legacy`). |
-| **`legibit/`** | Main **Helm chart** defining the microservices architecture (Frontend, Backend, DB, S3, SES). |
+| **`Helm Charts/`** | Contains Helm charts for the application (`legibit`) and monitoring (`monitoring`). |
 
 ---
 
