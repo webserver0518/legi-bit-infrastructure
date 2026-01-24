@@ -1,9 +1,9 @@
 - job_name: "backend_app"
   static_configs:
-    - targets: ["backend:9000"]
+    - targets: ["backend.legibit.svc:9000"]
 - job_name: "ses_service"
   static_configs:
-    - targets: ["ses:8002"]
+    - targets: ["ses.legibit.svc:8002"]
 - job_name: "s3_service"
   static_configs:
-    - targets: ["s3:8000"]
+    - targets: ["s3.legibit.svc:8000"]
