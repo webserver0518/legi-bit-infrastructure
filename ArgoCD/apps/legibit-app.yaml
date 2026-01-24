@@ -50,7 +50,7 @@ spec:
   source:
     repoURL: https://github.com/webserver0518/legi-bit-infrastructure.git
     targetRevision: main
-    path: legibit
+    path: Helm Charts/legibit
     helm:
       releaseName: legibit
       valueFiles:

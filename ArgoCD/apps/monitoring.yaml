@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/webserver0518/legi-bit-infrastructure.git
     targetRevision: main
-    path: monitoring
+    path: Helm Charts/monitoring
     helm:
       valueFiles:
         - values.yaml
