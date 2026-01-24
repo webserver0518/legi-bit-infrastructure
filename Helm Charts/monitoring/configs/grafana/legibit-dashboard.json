@@ -38,8 +38,8 @@
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
-                        "drawStyle": "line",
-                        "fillOpacity": 10,
+                        "drawStyle": "bars",
+                        "fillOpacity": 80,
                         "gradientMode": "none",
                         "hideFrom": {
                             "legend": false,
@@ -105,7 +105,7 @@
                         "uid": "Prometheus"
                     },
                     "editorMode": "code",
-                    "expr": "app_login_attempts_total",
+                    "expr": "increase(app_login_attempts_total[$__interval])",
                     "legendFormat": "Login: {{status}}",
                     "range": true,
                     "refId": "A"
@@ -130,8 +130,8 @@
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
-                        "drawStyle": "line",
-                        "fillOpacity": 10,
+                        "drawStyle": "bars",
+                        "fillOpacity": 80,
                         "gradientMode": "none",
                         "hideFrom": {
                             "legend": false,
@@ -197,7 +197,7 @@
                         "uid": "Prometheus"
                     },
                     "editorMode": "code",
-                    "expr": "app_file_downloads_total",
+                    "expr": "increase(app_file_downloads_total[$__interval])",
                     "legendFormat": "S3: {{action}} - {{status}}",
                     "range": true,
                     "refId": "A"
@@ -222,8 +222,8 @@
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
-                        "drawStyle": "line",
-                        "fillOpacity": 10,
+                        "drawStyle": "bars",
+                        "fillOpacity": 80,
                         "gradientMode": "none",
                         "hideFrom": {
                             "legend": false,
@@ -289,7 +289,7 @@
                         "uid": "Prometheus"
                     },
                     "editorMode": "code",
-                    "expr": "app_emails_sent_total",
+                    "expr": "increase(app_emails_sent_total[$__interval])",
                     "legendFormat": "SES: {{type}} - {{status}}",
                     "range": true,
                     "refId": "A"
