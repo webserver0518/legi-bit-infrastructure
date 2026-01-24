@@ -19,12 +19,13 @@ global:
       host: ses
       port: 8002
 
+  monitoring:
+    enabled: true
+
 
 https:
   email: webserver0518@gmail.com
 
-monitoring:
-  enabled: true
 
 web:
   enabled: true
