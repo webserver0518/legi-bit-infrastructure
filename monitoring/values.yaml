@@ -1,0 +1,36 @@
+kube-prometheus-stack:
+  grafana:
+    adminPassword: "admin"
+    sidecar:
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+        labelValue: "1"
+        searchNamespace: ALL
+    persistence:
+      enabled: true
+      size: 500Mi
+    service:
+      type: NodePort
+      nodePort: 31300
+
+  prometheus:
+    prometheusSpec:
+      retention: 1h
+      retentionSize: 500MB
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 500Mi
+      additionalScrapeConfigsSecret:
+        enabled: true
+        name: prometheus-additional-scrape-configs
+        key: prometheus-additional.yaml
+      resources:
+        requests:
+          memory: 300Mi
+        limits:
+          memory: 0.5Gi

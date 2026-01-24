@@ -6,35 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: kube-prometheus-stack
-    # ensure stability
-    targetRevision: "66.0.0"
+    repoURL: https://github.com/webserver0518/legi-bit-infrastructure.git
+    targetRevision: main
+    path: monitoring
     helm:
-      values: |
-        grafana:
-          # Change the default admin password (default is admin/prom-operator)
-          adminPassword: "admin"
-
-          service:
-            type: NodePort
-            nodePort: 31300
-          
-          # Persistence configuration - optional for simple setups but recommended
-          persistence:
-            enabled: true
-            size: 1Gi
-            
-        prometheus:
-          prometheusSpec:
-            retention: 1d
-            retentionSize: 1GB
-
-            resources:
-              requests:
-                memory: 300Mi
-              limits:
-                memory: 0.5Gi
+      valueFiles:
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
