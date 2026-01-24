@@ -4,7 +4,7 @@ kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name }}-ses-monitor
   labels:
-    release: prometheus
+    release: kube-prometheus-stack
     app: ses
 spec:
   selector:

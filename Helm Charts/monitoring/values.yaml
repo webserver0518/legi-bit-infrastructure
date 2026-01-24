@@ -13,6 +13,11 @@ kube-prometheus-stack:
     service:
       type: NodePort
       nodePort: 31300
+    resources:
+      requests:
+        ephemeral-storage: "100Mi"
+      limits:
+        ephemeral-storage: "200Mi"
 
   prometheus:
     prometheusSpec:

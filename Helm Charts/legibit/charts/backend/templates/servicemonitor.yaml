@@ -4,7 +4,7 @@ kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name }}-backend-monitor
   labels:
-    release: prometheus
+    release: kube-prometheus-stack
     app: backend
 spec:
   selector:
