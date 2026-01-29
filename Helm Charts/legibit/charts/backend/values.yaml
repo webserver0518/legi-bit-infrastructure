@@ -5,7 +5,7 @@ image:
   pullPolicy: IfNotPresent
 
 port: 9000
-replicas: 1
+replicas: 2
 
 secretName: "backend-secret"
 
