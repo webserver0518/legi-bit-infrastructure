@@ -103,38 +103,21 @@ Service-level monitoring is implemented using **Prometheus Operator** and Kubern
 - **Scraping:** Metrics are collected from the named Service port `http` at the `/metrics` path with a `15s` interval.
 - **Monitored Services:** Backend (Flask), S3 service, SES service.
 
-### Accessing Grafana
-
-Grafana is exposed internally via **NodePort `31300`**. To access it securely:
-
-1. Open an SSH tunnel:
-
-```bash
-ssh -i /path/to/key.pem -L 3000:localhost:31300 ec2-user@<SERVER_IP>
-```
-
-2. Open your browser at:
-
-- `http://localhost:3000`
-
-3. Login:
-
-- **Username:** `admin`
-- **Password:** `admin`
-
----
-
-## ☁️ Cloud Integration (Legacy)
-
-- **AWS Load Balancer Controller:** Manages ALBs.
-- **TargetGroupBinding:** Connects the web service directly to an AWS Target Group, bypassing standard Kubernetes `LoadBalancer` Services.
-
----
 
 ## 🔄 CI/CD Workflow
 
 - **CI:** Developers push code to GitHub, GitHub Actions worflow builds Docker images and pushes them to Docker Hub.
 - **CD:** Argo CD Image Updater detects the new tag and updates the '.argocd-source-legibit.yaml' file with the new tags. then ArgoCD has auto-sync and updates the cluster.
+
+---
+
+## SERVER MAINTENANCE
+
+- `ssh.legi-bit.com` thourgh proxy command
+- `argocd.legi-bit.com`
+- `grafana.legi-bit.com`
+
+> *Access limited to Cloudflare-authorized email addresses only*
 
 ---
 
