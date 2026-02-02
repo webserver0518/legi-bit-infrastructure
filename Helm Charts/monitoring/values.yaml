@@ -11,8 +11,7 @@ kube-prometheus-stack:
       enabled: true
       size: 500Mi
     service:
-      type: NodePort
-      nodePort: 31300
+      type: ClusterIP
     resources:
       requests:
         ephemeral-storage: "100Mi"
