@@ -21,6 +21,5 @@ domainName: "legi-bit.com"
 
 serviceName: "web-service"
 service:
-  type: NodePort
+  type: ClusterIP
   port: 80
-  nodePort: 30090
