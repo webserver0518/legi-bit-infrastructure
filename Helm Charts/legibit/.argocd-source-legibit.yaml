@@ -16,7 +16,7 @@ helm:
     value: webserver0518/legi-bit-mongodb
     forcestring: true
   - name: mongodb.image.tag
-    value: v0.83
+    value: v0.93
     forcestring: true
   - name: s3.image.repository
     value: webserver0518/legi-bit-s3
