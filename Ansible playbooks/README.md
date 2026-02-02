@@ -7,7 +7,7 @@ We use **Ansible** (running inside a Docker container) to configure the EC2 inst
 
 ## 📋 What does it do? (Roles)
 
-The master playbook (`site.yaml`) executes the following roles **in order**:
+The master playbook (`site.yaml`) imports `webservers.yaml`, which executes the following roles **in order**:
 
 | Role | Description |
 | :--- | :--- |
@@ -19,9 +19,9 @@ The master playbook (`site.yaml`) executes the following roles **in order**:
 
 ## ⚙️ Prerequisites
 
-1. Docker installed on your local machine (the machine running the playbook)
-2. SSH key (`.pem`) to connect to the AWS EC2 instance
-3. Updated inventory file (`production.ini`) with the new server IP address
+1.  **Docker** installed on your local machine (the machine running the playbook).
+2.  **SSH Key** (`.pem`) to connect to the AWS EC2 instance.
+3.  **Updated Inventory** (`production.ini`) with the new server IP address.
 
 ---
 
@@ -54,24 +54,16 @@ web1 ansible_host=<YOUR_EC2_IP>
 Open a terminal in this directory and run:
 
 ```bash
-# New syntax (recommended)
 docker compose up
-
-# Legacy syntax (if your Docker uses it)
-# docker-compose up
 ```
 
 ### What happens in the background?
 
 - The container starts and mounts your SSH key.
-- The key is copied to a temporary location and given `400` permissions (required for SSH).
-- The command below runs automatically:
+- The key is copied to a temporary location and given `400` permissions.
+- The command `ansible-playbook -i production.ini site.yaml` runs automatically.
 
-```bash
-ansible-playbook -i production.ini site.yaml
-```
-
-Upon completion, your server will be ready with **K3s** and **Argo CD** running.
+Upon completion, your server will be ready with **K3s**, **Docker**, and **Argo CD** running.
 
 ---
 
@@ -81,24 +73,10 @@ Upon completion, your server will be ready with **K3s** and **Argo CD** running.
 Ansible playbooks/
 ├── docker-compose.yaml  # Runner configuration
 ├── production.ini       # Inventory file (Server IPs)
-├── site.yaml            # Master playbook
-├── webservers.yaml      # Webservers play definition
+├── site.yaml            # Master playbook (imports webservers.yaml)
+├── webservers.yaml      # Webservers play definition (roles: k3s, docker, argocd)
 └── roles/
     ├── k3s/             # K3s installation tasks
     ├── docker/          # Docker installation tasks
     └── argocd/          # Argo CD bootstrapping tasks
 ```
-
----
-
-## ⚠️ Common Troubleshooting
-
-### `Permission denied (publickey)`
-
-- Ensure the path to the PEM file in `docker-compose.yaml` is correct.
-- Ensure you are using the correct user (`ec2-user` is the default in `production.ini`).
-
-### `Host key verification failed`
-
-This setup disables host key checking (e.g., `StrictHostKeyChecking=no`) to allow smooth automation on new servers.  
-If you want stricter security, remove that option and manage `known_hosts` explicitly.
