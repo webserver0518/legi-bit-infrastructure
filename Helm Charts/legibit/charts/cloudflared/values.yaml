@@ -14,37 +14,3 @@ resources:
   limits:
     cpu: 100m
     memory: 128Mi
-
-# Configuration for config.yaml
-config:
-  tunnel: "" # Will be populated by existing secret binding but the config file needs 'tunnel: <uuid>' or just credential file. 
-  # Actually, 'tunnel run' with --token handles the auth. 
-  # The config.yaml for 'tunnel run' usually just needs the ingress rules if we pass the token via env/args or if we use the cred file.
-  # User updated args to: "tunnel run" (remove token arg).
-  # And mount config map.
-  # The token usually acts as the credential. 
-  # If we use `tunnel run`, it looks for config.yaml.
-  
-  ingress:
-    # SSH
-    - hostname: ssh.legi-bit.com
-      service: ssh://localhost:22
-    
-    # Grafana
-    - hostname: grafana.legi-bit.com
-      service: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
-    
-    # ArgoCD
-    - hostname: argocd.legi-bit.com
-      service: https://argocd-server.argocd.svc.cluster.local:443
-      originRequest:
-        noTLSVerify: true
-    
-    # Legacy Nginx Routing
-    - hostname: legi-bit.com
-      service: http://web-service.legibit:80
-    - hostname: www.legi-bit.com
-      service: http://web-service.legibit:80
-    
-    # Catch-All
-    - service: http_status:404
