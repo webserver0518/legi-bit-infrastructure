@@ -1,0 +1,8 @@
+sealed-secrets:
+  fullnameOverride: sealed-secrets-controller
+  rbac:
+    create: true
+  serviceAccount:
+    create: true
+  # Key rotation every 30 days
+  keyrenewperiod: 720h
